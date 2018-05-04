@@ -59,7 +59,7 @@ We know that in the original plain-text, all chars have 0 as their first bit, th
 ```
 
 This will give us some info! From the first line we see that in the 6 bits 'v' encodes the first one is 0. Similarly, for '8' - the third bit is 0, and for 'A' - the fifth bit is zero.
-Ok, that's something. We do that for all the chunkschars .
+Ok, that's something. We do that for all the chunks.
 
 Let's take a look on those bitmaps:
 
