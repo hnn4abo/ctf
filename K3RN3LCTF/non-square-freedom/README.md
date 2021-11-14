@@ -79,35 +79,35 @@ In this challenge we know `(M**E)**D (mod N)`, but `M` is not co-prime with `N`,
 Let's denote `M = P*X` and try to find `P` and `X`.
 
 ## Step 1. Find `P`.
-Main idea: if we have two numbers divisible by `P` (or by `P**k` for some `k`), we can find GCD of the two numbers, and it would probably be `P` (or `P**k`).
-One obvious number is `N`, it is divisible by `P**8`.
-Another number is `M**E (mod N)` (which is known). `M**E` is divisible by `P**8` (because it is divisible by `P**65537`), `N` is divisible by `P**8` as well; thus `M**E (mod N)` must be divisible by `P**8` too.
+Main idea: if we have two numbers divisible by `P` (or by `P**k` for some `k`), we can find GCD of the two numbers, and it would probably be `P` (or `P**k`).  
+One obvious number is `N`, it is divisible by `P**8`.  
+Another number is `M**E (mod N)` (which is known). `M**E` is divisible by `P**8` (because it is divisible by `P**65537`), `N` is divisible by `P**8` as well; thus `M**E (mod N)` must be divisible by `P**8` too.  
 So we find `GCD(N, C)`, and it is `P**8`.
 
 ## Step 2. Find `X`.
-Here we will need the known `D(C)` value.
-`D(C) ≡ (M**E)**D ≡ M**(E*D) ≡ (P*X)**(E*D) ≡ P**(E*D) * X**(E*D) (mod N)`
-Let's get rid of `mod(N)` first:
-`P**(E*D) * X**(E*D) = A*N + D(C)` for some `A`. It's time to replace `N` with `P**8 * Q * R`:
-`P**(E*D) * X**(E*D) = A*P**8*Q*R + D(C)`. Divide both parts by `P**8`:
-`P**(E*D-8) * X**(E*D) = A*Q*R + D(C)/P**8`
-We are almost there. It's time to look at this formula modulo `Q*R`:
-`P**(E*D-8) * X**(E*D) ≡ D(C)/P**8 (mod Q*R)`
-If we could find `P**(E*D-8) (mod Q*R)`, we then can find `X**(E*D) (mod Q*R)` from the previous formula. And it's easy to show that `X = X**(E*D) (mod Q*R)`, thus we found `X`!
+Here we will need the known `D(C)` value.  
+`D(C) ≡ (M**E)**D ≡ M**(E*D) ≡ (P*X)**(E*D) ≡ P**(E*D) * X**(E*D) (mod N)`  
+Let's get rid of `mod(N)` first:  
+`P**(E*D) * X**(E*D) = A*N + D(C)` for some `A`. It's time to replace `N` with `P**8 * Q * R`:  
+`P**(E*D) * X**(E*D) = A*P**8*Q*R + D(C)`. Divide both parts by `P**8`:  
+`P**(E*D-8) * X**(E*D) = A*Q*R + D(C)/P**8`  
+We are almost there. It's time to look at this formula modulo `Q*R`:  
+`P**(E*D-8) * X**(E*D) ≡ D(C)/P**8 (mod Q*R)`  
+If we could find `P**(E*D-8) (mod Q*R)`, we then can find `X**(E*D) (mod Q*R)` from the previous formula. And it's easy to show that `X = X**(E*D) (mod Q*R)`, thus we found `X`!  
 ### Find `P**(E*D-8) (mod Q*R)`
-It's simply `P**(-7) (mod Q*R)`. And here is why.
-We know that `E*D ≡ 1 (mod φ(N))`, i.e. `E*D ≡ 1 (mod P**7*(P-1)*(Q-1)*(R-1))`. So for some `B`:
-`E*D = B*P**7*(P-1)*(Q-1)*(R-1) + 1`
-`E*D-8 = B*P**7*(P-1)*(Q-1)*(R-1) - 7`
-`P**(E*D-8) = P**((Q-1)*(R-1)*...) * P**(-7)`
-Euler's theorem tells us that `P**((Q-1)*(R-1)) ≡ 1 (mod Q*R)` (because `P` is co-prime with `Q*R`), and it means that `P**(E*D-8) ≡ P**(-7) (mod Q*R)`
+It's simply `P**(-7) (mod Q*R)`. And here is why.  
+We know that `E*D ≡ 1 (mod φ(N))`, i.e. `E*D ≡ 1 (mod P**7*(P-1)*(Q-1)*(R-1))`. So for some `B`:  
+`E*D = B*P**7*(P-1)*(Q-1)*(R-1) + 1`  
+`E*D-8 = B*P**7*(P-1)*(Q-1)*(R-1) - 7`  
+`P**(E*D-8) = P**((Q-1)*(R-1)*...) * P**(-7)`  
+Euler's theorem tells us that `P**((Q-1)*(R-1)) ≡ 1 (mod Q*R)` (because `P` is co-prime with `Q*R`), and it means that `P**(E*D-8) ≡ P**(-7) (mod Q*R)`  
 ### Proof `X ≡ X**(E*D) (mod Q*R)`
-Well, it is Euler's theorem again. `X` now is co-prime with `Q*R` (well, most likely!), thus `X**(E*D) = X**(1 + (Q-1)*(R-1)*...) ≡ X (mod Q*R)`
+Well, it is Euler's theorem again. `X` now is co-prime with `Q*R` (well, most likely!), thus `X**(E*D) = X**(1 + (Q-1)*(R-1)*...) ≡ X (mod Q*R)`  
 
-So the formula for `X` is rather simple.
-From `P**(E*D-8) * X**(E*D) ≡ D(C)/P**8 (mod Q*R)` and `P**(E*D-8) ≡ P**(-7) (mod Q*R)`, we see that `X**(E*D) ≡ D(C)/P**8 * P**7 (mod Q*R)`.
-`X = D(C)/P**8 * P**7 (mod Q*R)`
-`X = D(C)/P (mod Q*R)`
+So the formula for `X` is rather simple.  
+From `P**(E*D-8) * X**(E*D) ≡ D(C)/P**8 (mod Q*R)` and `P**(E*D-8) ≡ P**(-7) (mod Q*R)`, we see that `X**(E*D) ≡ D(C)/P**8 * P**7 (mod Q*R)`.  
+`X = D(C)/P**8 * P**7 (mod Q*R)`  
+`X = D(C)/P (mod Q*R)`  
 (Actually we only found `X (mod Q*R)` and there might be multiple solutions for `X`. We will pick `0 < X < Q*R` and will hope it is the right one.)
 
 Let's write a script and see if it actually works.
@@ -155,13 +155,13 @@ def pad_hard(m):
     m += (-(m % (P**3)) % (P**3))
     return m
 ```
-The `pad_hard` takes the flag as input, adds `512//2` random bits to the end, and then rounds up to the nearest(?) integer divisible by `P**3`.
-Can we apply the same method again? The method may not work because the different padding method might mess up with some assumptions that were valid in the easy version, but let's give it a try.
+The `pad_hard` takes the flag as input, adds `512//2` random bits to the end, and then rounds up to the nearest(?) integer divisible by `P**3`.  
+Can we apply the same method again? The method may not work because the different padding method might mess up with some assumptions that were valid in the easy version, but let's give it a try.  
 There are just a few differences from the easy version:
 - `M = P**3 * X`
 - `D(C) ≡ (M**E)**D ≡ M**(E*D) ≡ (P**3*X)**(E*D) ≡ P**(3*E*D) * X**(E*D) (mod N)`
 - `P**(3*E*D-8) ≡ P**(3*(1+(Q-1)*(R-1)*...)-8) ≡ P**(-5) (mod Q*R)`
-And the final formula for `X`:
+And the final formula for `X`:  
 `X = D(C)/P**3 (mod Q*R)`
 
 Let's see if it works.
