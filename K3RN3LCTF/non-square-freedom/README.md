@@ -161,6 +161,7 @@ There are just a few differences from the easy version:
 - `M = P**3 * X`
 - `D(C) ≡ (M**E)**D ≡ M**(E*D) ≡ (P**3*X)**(E*D) ≡ P**(3*E*D) * X**(E*D) (mod N)`
 - `P**(3*E*D-8) ≡ P**(3*(1+(Q-1)*(R-1)*...)-8) ≡ P**(-5) (mod Q*R)`
+
 And the final formula for `X`:  
 `X = D(C)/P**3 (mod Q*R)`
 
